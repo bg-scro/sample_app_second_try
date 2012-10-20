@@ -31,9 +31,15 @@ gem 'annotate', '2.5.0', group: :development
 
 group :test do
 	gem 'capybara', '1.1.2'
-	gem 'rb-fchange', '0.0.5'
-	gem 'rb-notifu', '0.0.4'
-	gem 'win32console', '1.3.0'
+	
+	# following are Linux gems - turn off for Windows
+	gem 'rb-inotify', '0.8.8'
+	gem 'libnotify', '0.5.9'
+
+	# following are Windows gems - turn off for Linux
+	# gem 'rb-fchange', '0.0.5'
+	# gem 'rb-notifu', '0.0.4'
+	# gem 'win32console', '1.3.0' # uncomment on Win32 machine
 end
 
 group :production do
