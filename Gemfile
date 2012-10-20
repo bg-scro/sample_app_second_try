@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.8'
 gem 'bootstrap-sass', '2.0.4'
+gem 'bcrypt-ruby', '3.0.1'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -12,7 +13,7 @@ group :development, :test do
 	gem 'guard-rspec', '1.2.1'
 	gem 'guard-spork', '1.2.0'
 	gem 'spork', '0.9.2'
-	# gem 'wdm', '~>0.0.3'  - this needs research in re: Guard/Spork
+	#gem 'wdm', '~>0.0.3'  #- this needs research in re: Guard/Spork
 end
 
 
@@ -25,6 +26,8 @@ group :assets do
 end
 
 gem 'jquery-rails', '2.0.2'
+
+gem 'annotate', '2.5.0', group: :development
 
 group :test do
 	gem 'capybara', '1.1.2'
