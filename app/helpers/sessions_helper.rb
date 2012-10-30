@@ -32,6 +32,6 @@ module SessionsHelper
 	end
 
 	def store_location
-		session[:return_to] = request.fullpath
+		session[:return_to] = request.url
 	end
 end

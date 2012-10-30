@@ -14,6 +14,7 @@ describe "User pages" do
 
 		it { should have_selector('title', 	text: 'All users') }
 		it { should have_selector('h1',			text: 'All users') }
+		
 		it "should list each user" do
 			User.all.each do |user|
 				page.should have_selector('li', text: user.name)
@@ -92,7 +93,6 @@ describe "User pages" do
 		describe "with valid information" do
 			let(:new_name)		{ "New Name" }
 			let(:new_email)		{ "new@example.com" }
-			before { visit edit_user_path(user) }  # experiment to fix test failures
 			before do
 				fill_in "Name",							with: new_name
 				fill_in "Email",						with: new_email
