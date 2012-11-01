@@ -42,7 +42,10 @@ describe "Authentication" do
 
 		describe "followed by signout" do
 			before { click_link "Sign out" }
+
 			it { should have_link('Sign in') }
+			it { should_not have_link('Profile') }
+			it { should_not have_link('Settings') }
 		end
 	end
 
@@ -52,17 +55,20 @@ describe "Authentication" do
 			let(:user) { FactoryGirl.create(:user) }
 
 			describe "when attempting to visit a protected page" do
-				before do
-					visit edit_user_path(user)
-					fill_in "Email",		with: user.email
-					fill_in "Password",	with: user.password
-					click_button "Sign in"
-				end
+				before { edit_user user }
 
 				describe "after signing in" do
 
 					it "should render the desired protected page" do
 						page.should have_selector('title', text: 'Edit user')
+					end
+
+					describe "when signing in again" do
+						before { sign_in user }
+
+						it "should render the default (profile) page" do
+							page.should have_selector('title', text: user.name)
+						end
 					end
 				end
 			end
@@ -83,6 +89,19 @@ describe "Authentication" do
           before { visit users_path }
           it { should have_selector('title', text: 'Sign in') }
         end
+			end
+		end
+
+		describe "for signed-in users" do
+			let(:user) { FactoryGirl.create(:user) }
+			before { sign_in user }
+
+			describe "in the Users controller" do
+
+				describe "attempting to access the 'new' action" do
+					before { put signup_path }
+					specify { response.should redirect_to(users_path) }
+				end
 			end
 		end
 
@@ -110,6 +129,19 @@ describe "Authentication" do
 
 			describe "submitting a DELETE request to the Users#destroy action" do
 				before { delete user_path(user) }
+				specify { response.should redirect_to(root_path) }
+			end
+		end
+
+		describe "as admin user" do
+			let(:admin) { FactoryGirl.create(:admin) }
+			before do
+				sign_in admin
+				visit users_path
+			end
+
+			describe "submitting a DELETE request for the admin user" do
+				before { delete user_path(admin) }
 				specify { response.should redirect_to(root_path) }
 			end
 		end

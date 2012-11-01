@@ -4,7 +4,11 @@ class UsersController < ApplicationController
   before_filter :admin_user,      only: :destroy
 
   def new
-  	@user = User.new
+    if signed_in?
+      redirect_to users_path
+    else
+  	 @user = User.new
+    end
   end
 
   def show
@@ -40,9 +44,13 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find(params[:id]).destroy
-    flash[:success] = "User destroyed."
-    redirect_to users_path
+    if User.find(params[:id]).admin?
+      redirect_to root_path
+    else
+      User.find(params[:id]).destroy
+      flash[:success] = "User destroyed."
+      redirect_to users_path
+    end
   end
 
   private

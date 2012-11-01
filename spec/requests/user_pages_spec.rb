@@ -50,6 +50,14 @@ describe "User pages" do
 		end
 	end
 
+	describe "accessible attributes" do
+		it "should not allow access to admin attribute" do
+			expect do
+				User.new(admin: 'y')
+			end.to raise_error
+		end
+	end
+
 	describe "profile page" do
 		let(:user) { FactoryGirl.create(:user) }
 		before { visit user_path(user) }
@@ -78,10 +86,10 @@ describe "User pages" do
 
 		describe "with valid information" do
 			before do
-				fill_in "Name",			with: "Example User"
-				fill_in "Email",			with: "user@example.com"
-				fill_in "Password", 		with: "foobar"
-				fill_in "Confirmation",	with: "foobar" 
+				fill_in "Name",							with: "Example User"
+				fill_in "Email",						with: "user@example.com"
+				fill_in "Password", 				with: "foobar"
+				fill_in "Confirm password",	with: "foobar" 
 			end
 
 			it "should create a user" do
